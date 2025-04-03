@@ -1,10 +1,14 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+
+from authApp.serializers import UserSerializer
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
@@ -56,7 +60,9 @@ class CustomTokenRefreshView(TokenRefreshView):
                 )
 
             # Securely store access token in HTTP-only cookie
-            res = Response(status=status.HTTP_204_NO_CONTENT) 
+            res = Response({
+                "message":"refreshed successfully"
+                },status=status.HTTP_204_NO_CONTENT) 
 
             res.set_cookie(
                 key='access_token',
@@ -73,3 +79,19 @@ class CustomTokenRefreshView(TokenRefreshView):
                 {"error": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+# class RegisterView(APIView):
+#     def post(self,request):
+#         serializer=UserSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data)
+
+
+class HomeView(APIView):
+    permission_classes=[IsAuthenticated]
+    def get(self,request):
+        return Response({
+            "user":request.user.username,
+            "message":"authenticated"
+        })
