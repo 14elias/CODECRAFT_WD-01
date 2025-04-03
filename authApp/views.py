@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -80,12 +80,13 @@ class CustomTokenRefreshView(TokenRefreshView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-# class RegisterView(APIView):
-#     def post(self,request):
-#         serializer=UserSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response(serializer.data)
+class RegisterView(APIView):
+    permission_classes=[AllowAny]
+    def post(self,request):
+        serializer=UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 class HomeView(APIView):
