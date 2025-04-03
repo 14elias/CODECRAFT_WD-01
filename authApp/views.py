@@ -83,7 +83,7 @@ class CustomTokenRefreshView(TokenRefreshView):
 class RegisterView(APIView):
     permission_classes=[AllowAny]
     def post(self,request):
-        serializer=UserSerializer(data=request.data)
+        serializer=UserSerializer(data=request.user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -96,3 +96,16 @@ class HomeView(APIView):
             "user":request.user.username,
             "message":"authenticated"
         })
+
+class LogoutView(APIView):
+    def post(self,request):
+        res=Response({'message':'Logged out successfully'})
+
+        access_token = request.COOKIES.get('access_token')
+        refresh_token = request.COOKIES.get('refresh_token')
+
+        if access_token:
+            res.delete_cookie('access_token')
+        if refresh_token:
+            res.delete_cookie('refresh_token')
+        return res
