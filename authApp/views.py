@@ -25,6 +25,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 "message": "Login successful",
             }, status=status.HTTP_200_OK)
 
+            
             res.set_cookie(
                 key="access_token",
                 value=access_token,
@@ -83,7 +84,6 @@ class CustomTokenRefreshView(TokenRefreshView):
 class RegisterView(APIView):
     permission_classes = [AllowAny]
     def post(self,request):
-        print(request.data)
         serializer=UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -99,15 +99,16 @@ class HomeView(APIView):
         })
 
 class LogoutView(APIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def post(self,request):
         res=Response({'message':'Logged out successfully'})
 
         access_token = request.COOKIES.get('access_token')
         refresh_token = request.COOKIES.get('refresh_token')
-
+        
         if access_token:
-            res.delete_cookie('access_token')
+            res.delete_cookie('access_token', path='/')
         if refresh_token:
-            res.delete_cookie('refresh_token')
+            res.delete_cookie('refresh_token', path='/')
+
         return res
