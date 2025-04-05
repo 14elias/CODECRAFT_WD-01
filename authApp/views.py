@@ -81,9 +81,10 @@ class CustomTokenRefreshView(TokenRefreshView):
             )
 
 class RegisterView(APIView):
-    permission_classes=[AllowAny]
+    permission_classes = [AllowAny]
     def post(self,request):
-        serializer=UserSerializer(data=request.user)
+        print(request.data)
+        serializer=UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -98,6 +99,7 @@ class HomeView(APIView):
         })
 
 class LogoutView(APIView):
+    permission_classes=[IsAuthenticated]
     def post(self,request):
         res=Response({'message':'Logged out successfully'})
 
