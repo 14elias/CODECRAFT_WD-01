@@ -46,4 +46,13 @@ export const register = async (first_name, last_name, username, email, password)
       throw error;
     }
   };
-  
+
+  export const logout = async () => {
+    const response = await api.post('/api/logout/')
+    return response.data
+  }
+
+  export const isAuthenticated = async () => {
+    const response = await api.get('/api/');
+    return response.data;
+  }

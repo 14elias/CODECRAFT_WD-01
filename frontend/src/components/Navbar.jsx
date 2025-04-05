@@ -1,11 +1,18 @@
 import { Box, Button, Flex, Heading, Spacer } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../api/endpoints";
 
 function Navbar() {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      const response = await logout(); // Call the logout API
+      console.log(response.message); // Log the success message
+      navigate("/login"); // Redirect to the login page
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   return (
