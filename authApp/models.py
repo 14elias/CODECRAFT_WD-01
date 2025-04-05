@@ -8,8 +8,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser,Permiss
 class MyUserManager(BaseUserManager):
     def create_user(self, email,password=None,*args,**kwargs):
         """
-        Creates and saves a User with the given email, date of
-        birth and password.
+        Creates and saves a User with the given email and password.
         """ 
         if not email:
             raise ValueError("Users must have an email address")
