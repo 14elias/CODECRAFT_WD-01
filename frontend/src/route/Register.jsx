@@ -11,6 +11,9 @@ import {
   Link,
 } from "@chakra-ui/react";
 
+import { register } from "../api/endpoints";
+import { useNavigate } from "react-router-dom";
+
 function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -18,14 +21,16 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const nav = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("First Name:", firstName);
-    console.log("Last Name:", lastName);
-    console.log("Username:", userName);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Add API call logic here to register the user
+    try{
+        const response = await register(firstName,lastName,userName,email,password)
+        nav('/login')
+    }catch (error) {
+        console.error('Error during registration:', error);
+      }
   };
 
   return (
