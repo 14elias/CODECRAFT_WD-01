@@ -108,8 +108,9 @@ class RegisterView(APIView):
 class HomeView(APIView):
     permission_classes=[IsAuthenticated]
     def get(self,request):
+        user_name=request.user.username.upper()
         return Response({
-            "user":request.user.username,
+            "user":user_name,
             "message":"authenticated"
         })
 
