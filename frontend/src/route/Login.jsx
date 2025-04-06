@@ -2,6 +2,8 @@ import { useState } from "react";
 import { login } from "../api/endpoints";
 import {
   Box,  Button, FormControl, FormLabel, Heading, Input, Stack, Text, Link,
+  VStack,
+  HStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
@@ -69,12 +71,20 @@ function Login() {
           </Stack>
         </form>
 
-        <Text mt={4} textAlign="center">
-          Don't have an account?{" "}
-          <Link color="teal.600" href="/register">
-            Sign up
-          </Link>
-        </Text>
+        
+          <VStack>
+            <HStack>
+            <Text mt={4} textAlign="center">
+                Don't have an account?{" "}
+                <Link color="teal.600" href="/register">
+                  Sign up
+                </Link>
+              </Text>
+            </HStack>
+            <Link color="teal.600" href="/password-reset">
+              forgot password
+            </Link>
+          </VStack>
       </Box>
     </Box>
   );
