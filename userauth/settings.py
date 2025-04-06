@@ -137,6 +137,9 @@ AUTH_USER_MODEL='authApp.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+# Email backend for development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 STATIC_URL = 'static/'
 
 CORS_ALLOWED_ORIGINS = [
